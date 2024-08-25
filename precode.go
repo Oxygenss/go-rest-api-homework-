@@ -51,7 +51,13 @@ func getTasks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Printf("Статус ответа при /tasks: %d\n", http.StatusOK)
 	w.WriteHeader(http.StatusOK)
-	w.Write(resp)
+
+	_, err = w.Write(resp)
+	if err != nil {
+		fmt.Println("Ошибка при отправке ответа")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func getTask(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +80,12 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	fmt.Printf("Статус ответа при /tasks/{id}: %d\n", http.StatusOK)
 	w.WriteHeader(http.StatusOK)
-	w.Write(resp)
+	_, err = w.Write(resp)
+	if err != nil {
+		fmt.Println("Ошибка при отправке ответа")
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
 
 func postTask(w http.ResponseWriter, r *http.Request) {
